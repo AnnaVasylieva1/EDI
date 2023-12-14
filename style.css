@@ -1,0 +1,58 @@
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background-color: #ed4965; 
+    font-family: 'Arial', sans-serif;
+    
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(190, 55, 107); 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+
+h1 {
+    color: #ff69b4; 
+}
+
+
+h2 {
+    color: #ff69b4; 
+}
+
+
+.card {
+    background-color: rgb(255, 217, 203); 
+    border: 1px solid #ff69b4; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
+.card-title {
+    color: #ff69b4; 
+}
+
+
+.card-text {
+    color: #333; 
+}
+
+
+#lineChart, #pieChart {
+    background-color: #fff; 
+    border: 1px solid #ff69b4; 
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}

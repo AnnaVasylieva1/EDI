@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Authors: Anastasia Razdovski, Anna Vasilieva, Mykhailo Mikailov, Patrik Edmar</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Medicare patients</h1>
+        <div id="data-container" class="mt-4"></div>
+
+        <h2 class="mt-4">Charts</h2>
+        <canvas id="lineChart" width="400" height="200" class="mt-3"></canvas>
+        <canvas id="pieChart" width="400" height="400" class="mt-3"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("https://api.mockaroo.com/api/32997fc0?count=100&key=dbed5bd0")
+                .then(response => response.json())
+                .then(data => {
+                    displayData(data);
+                    createCharts(data);
+                })
+                .catch(error => console.error("Error:", error));
+
+            function displayData(data) {
+                var dataContainer = document.getElementById("data-container");
+
+                // Create Bootstrap card for each item in the data
+                data.forEach(item => {
+                    var card = document.createElement("div");
+                    card.className = "card mt-3";
+                    card.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${item.first_name} ${item.last_name}</h5>
+                            <p class="card-text">Gender: ${item.gender}</p>
+                            <p class="card-text">Phone: ${item.phone}</p>
+                            <p class="card-text">Email: ${item.email}</p>
+                            <p class="card-text">Address: ${item.address}</p>
+                            <p class="card-text">MB_ID: ${item.MB_ID}</p>
+                            <p class="card-text">Age: ${item.age}</p>
+                        </div>
+                    `;
+
+                    dataContainer.appendChild(card);
+                });
+            }
+
+            function createCharts(data) {
+                // Line Chart (Age Distribution)
+                var ageData = {
+                    labels: data.map(item => item.first_name + ' ' + item.last_name),
+                    datasets: [{
+                        label: 'Age',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        data: data.map(item => item.age)
+                    }]
+                };
+
+                var ageOptions = {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                };
+
+                var ageChartCanvas = document.getElementById('lineChart').getContext('2d');
+                new Chart(ageChartCanvas, {
+                    type: 'line',
+                    data: ageData,
+                    options: ageOptions
+                });
+
+                // Pie Chart (Gender Distribution)
+                var genderData = {
+                    labels: ['Male', 'Female'],
+                    datasets: [{
+                        data: [
+                            data.filter(item => item.gender === 'Male').length,
+                            data.filter(item => item.gender === 'Female').length
+                        ],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                var genderOptions = {
+                    responsive: false, // Disable responsiveness
+                    maintainAspectRatio: false, // Disable aspect ratio
+                    width: 400, // Set the width
+                    height: 400 // Set the height
+                };
+
+                var genderChartCanvas = document.getElementById('pieChart').getContext('2d');
+                new Chart(genderChartCanvas, {
+                    type: 'pie',
+                    data: genderData,
+                    options: genderOptions
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
